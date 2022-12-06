@@ -45,7 +45,8 @@ export default {
             local: [],
             mensaje: "",
             loading: false,
-            };
+            
+        };
     },
 
     mounted() {
