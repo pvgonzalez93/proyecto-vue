@@ -48,7 +48,7 @@ export default {
                 this.errores.push("No ingresaste ninguna tarea");
             }
             if (this.errores.length == 0) {
-                datos = Object.assign({}, datos, { id: new Date().getTime() });
+                datos = Object.assign({}, datos, { id: new Date()});
                 console.log(datos);
 
                 if (!localStorage.form) {
