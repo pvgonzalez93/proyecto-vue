@@ -1,58 +1,102 @@
+
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-card class="mx-auto" max-width="400">
+          <v-img class="white--text align-end" contain height="100" :src="require('../assets/logo.png')">
+          </v-img>
+          <v-card-text>
+            <v-form>
+              <v-row justify="center">
+                <v-col cols="12" sm="6" md="10">
+                  <v-text-field class="letra" v-model="email" label="Email" placeholder="Email"></v-text-field>
+                  <v-text-field class="letra" v-model="password" label="Password" placeholder="Password"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-row justify="center">
+              <v-col>
+                <v-btn color="red darken-4" text @click="validarInformacion">
+                  Iniciar sesión
+                </v-btn>
+
+                <v-btn color="red darken-4" text>
+                  Registrarse
+                </v-btn>
+
+              </v-col>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <template>
+      </template>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert :value="alert" color="pink" dark border="top" icon="mdi-home" transition="scale-transition">
+            {{mensajeAlert}}
+        </v-alert>
+        <v-alert :value="success" color="success" dark border="top" icon="mdi-home" transition="scale-transition">
+            Se ingresó correctamente sesión
+        </v-alert>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data: () => {
+    return {
+      email: "",
+      password: "",
+      success: false,
+      alert: false,
+      mensajeAlert: ""
+    }
+  },
+  methods: {
+    validarInformacion(e){
+      this.alert = false;
+      this.success = false;
+      this.mensajeAlert = "";
+      console.log(e)
+      if(!this.email) { // si esta vacio
+        this.mensajeAlert += "El email es obligatorio.";
+        this.alert = true;
+      }
+      if(!this.password) {
+        this.mensajeAlert += "El password es obligatorio.";
+        this.alert = true;
+      }
+      if(!this.mensajeAlert) {
+        this.success=true;
+        localStorage.setItem("login", "true");
+        this.$router.push("/tareas");
+      }
+      setTimeout(()=> {
+      this.success = false;
+       this.alert = false;
+      }, 2000);
+      
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+.mx-auto{
+  margin-top: 3rem !important;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.letra{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
